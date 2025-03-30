@@ -54,20 +54,28 @@ if (contactForm) {
 }
 
 // Scroll reveal animation
-const scrollReveal = () => {
-    const elements = document.querySelectorAll('.service-card, .stat, .about-text');
-    
-    elements.forEach(element => {
+const revealElements = document.querySelectorAll('.portfolio-item, .about-text p, .stat');
+
+const revealOnScroll = () => {
+    revealElements.forEach(element => {
         const elementTop = element.getBoundingClientRect().top;
         const elementVisible = 150;
         
         if (elementTop < window.innerHeight - elementVisible) {
-            element.classList.add('active');
+            element.classList.add('reveal');
         }
     });
 };
 
-window.addEventListener('scroll', scrollReveal);
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll(); // Initial check
+
+// Parallax effect for hero section
+const hero = document.querySelector('.hero');
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    hero.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
+});
 
 // Add active class to navigation links based on scroll position
 const sections = document.querySelectorAll('section');
@@ -90,5 +98,20 @@ window.addEventListener('scroll', () => {
         if (item.getAttribute('href').slice(1) === current) {
             item.classList.add('active');
         }
+    });
+});
+
+// Portfolio image hover effect
+const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+portfolioItems.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+        const overlay = item.querySelector('.portfolio-overlay');
+        overlay.style.transform = 'translateY(0)';
+    });
+    
+    item.addEventListener('mouseleave', () => {
+        const overlay = item.querySelector('.portfolio-overlay');
+        overlay.style.transform = 'translateY(100%)';
     });
 }); 
